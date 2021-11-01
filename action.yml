@@ -1,0 +1,43 @@
+name: Silverstripe CMS CI Setup step
+inputs:
+  phpVersion:
+    description: PHP Version to run the test against
+    required: true
+    default: 7.4
+  composer-stability:
+    description: composer stability flag
+    required: true
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.phpVersion }}
+        extensions: imagick, swoole
+        
+    
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+      shell: bash
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+          
+    - name: Require test dependencies
+      run: composer require silverstripe/recipe-cms=^4 --no-update
+      shell: bash
+
+    - name: Install dependencies
+      run: composer update --prefer-source --no-progress ${{ inputs.composer-stability }}
+      shell: bash
