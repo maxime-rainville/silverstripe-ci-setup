@@ -18,9 +18,6 @@ runs:
         php-version: ${{ inputs.phpVersion }}
         extensions: imagick, swoole
         
-    
-    - uses: actions/checkout@v2
-
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
       shell: bash
