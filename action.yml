@@ -19,7 +19,7 @@ runs:
         extensions: imagick, swoole
         
     - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      run: composer validate
       shell: bash
 
     - name: Cache Composer packages
