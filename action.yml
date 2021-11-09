@@ -8,6 +8,10 @@ inputs:
     description: composer stability flag
     required: true
     default: ''
+  extensions:
+    description: Additional PHP extensions to install
+    required: false
+    default: ''
 
 runs:
   using: "composite"
@@ -16,7 +20,7 @@ runs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ inputs.phpVersion }}
-        extensions: imagick, swoole
+        extensions: imagick, swoole, ${{ inputs.extensions }}
         
     - name: Validate composer.json and composer.lock
       run: composer validate
