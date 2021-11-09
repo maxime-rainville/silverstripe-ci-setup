@@ -36,5 +36,5 @@ runs:
       shell: bash
 
     - name: Install dependencies
-      run: composer update --prefer-source --no-progress ${{ inputs.composer-stability }}
+      run: composer update --prefer-source ${{ inputs.composer-stability }}
       shell: bash
